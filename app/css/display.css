@@ -1,7 +1,54 @@
 body{
 	background-color: #00ff00;
+	background-image: url("../graphics/leaderBoardBackground.png");
 	margin:0px;
 	font-family: Verdana, Geneva, sans-serif;
 	color: white;
 	font-size: 36px;
+}
+
+#titleBox{
+	position: fixed;
+	top: 10px;
+	left: 0px;
+	text-align: center;
+	font-size: 19px;
+}
+
+#leaderBoard{
+	position: fixed;
+	top: 40px;
+	left: 0px;
+	font-size: 26px;
+	text-align: center;
+}
+
+.leaderLine{
+	position: absolute;
+	width: 100%;
+	height: 35px;
+	left: 0px;
+}
+.placeNumeral{
+	/* background-color: red; */
+	position: absolute;
+	width: 60px;
+	height: 100%;
+	left: 0px;
+}
+
+.teamName{
+	/* background-color: blue; */
+	position: absolute;
+	width: 280px;
+	height: 100%;
+	left: 61px;
+}
+
+.scoreNumeral{
+	/* background-color: orange; */
+	position: absolute;
+	width: 60px;
+	height: 100%;
+	left: 341px;
 }

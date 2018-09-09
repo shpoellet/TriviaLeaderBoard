@@ -3,118 +3,30 @@
     <head>
       <meta charset="UTF-8">
       <link rel="stylesheet" type="text/css" href="css/index.css">
-    	<title>Slow Motion Booth</title>
+    	<title>Learder Board</title>
     </head>
     <body>
-      <div id="title_box">
-  			Slow Motion Booth
-  		</div>
-      <div class="status_box" id="camera_status">
-        <div class="status_display" id="camera_status_display"></div>
-  			Camera
-        <div class="settings_graphic"></div>
-  		</div>
-      <div class="status_box" id="pivot_status">
-        <div class="status_display" id="pivot_status_display"></div>
-  			Pivot Arm
-        <div class="settings_graphic"></div>
-  		</div>
-      <div class="status_box" id="lights_status">
-        <div class="status_display" id="lights_status_display"></div>
-  			Lights
-        <div class="settings_graphic"></div>
-  		</div>
-      <div class="status_box" id="server_status">
-        <div class="status_display" id="server_status_display"></div>
-  			Server
-        <div class="settings_graphic"></div>
-  		</div>
-
-
-      <!-- home page -->
-      <div class="main_pane" id="home_pane">
-        <div id="recordingLight"></div>
-        <img id="live_view_window" src="graphics/liveview.png" />
-
-        <div class="action_button" id="arm_button">ARM</div>
-        <div class="action_button" id="fire_button">FIRE</div>
-        <div class="sub_action_button" id="cancel_fire_button">CANCEL</div>
-
-        <div id="photo_number_box">
-          Video Number
-          <div id="photo_number_display">12345</div>
-        </div>
-        <div class="error_pane" id="force_arm_pane">
-          The camera is in file transfer mode. Arming the sytem may interupt a file transfer.
-          <br><br>
-          Do you wish to continue?
-          <div class="alert_option" id="force_arm_yes">YES</div>
-          <div class="alert_option" id="force_arm_no">NO</div>
-        </div>
-        <div class="error_pane" id="no_camera_pane">Camera Not Found</div>
-        <div class="error_pane" id="alert_pane">
-          <div id="alert_message">
-            Alert Message
+      <div id="scorePane">
+        <div id="titleBox">
+          <div class="teamID" id="teamID_header">ID</div>
+          <div class="teamName" id="teamName_header">Team Name</div>
+          <div class="teamPlace" id="teamScore_header">Place</div>
+          <div class="teamScore" id="teamScore_header">Score</div>
+          <div class="roundScores" id="roundScores_header">
+            <div class="roundScore">Rounds</div>
           </div>
-          <div class="alert_option" id="alert_button">OK</div>
+        </div>
+        <div id="scoreBox">
+          <!-- score lines -->
         </div>
       </div>
+      <div id="buttonPane">
+        <div class="mainButton" id="settingsButton">Settings</div>
+        <div class="mainButton" id="displayButton">Update Display</div>
+        <div class="mainButton" id="saveButton">Save</div>
 
-      <!-- Camera Settins Page -->
-      <div class="main_pane settings_pane" id="camera_pane">
-        <div class="settings_title">Camera Settings</div>
-        <div class="settings_close_button" id="camera_close_button">Close</div>
-        <div class="settings_content">
-          Record Time (1000ms - 10000ms)<br>
-          <input type="number" class="time_input" id="record_time">&nbsp
-          <button type="button" class="settings_button" id="record_time_button">Save</button>
-          <br><br><br>
-          Pivot Delay (1000ms - 10000ms)<br>
-          <input type="number" class="time_input" id="pivot_time">&nbsp
-          <button type="button" class="settings_button" id="pivot_time_button">Save</button>
-        </div>
+
       </div>
-
-      <!-- Pivot Arm Settins Page -->
-      <div class="main_pane settings_pane" id="pivot_pane">
-        <div class="settings_title">Pivot Arm Settings</div>
-        <div class="settings_close_button" id="pivot_close_button">Close</div>
-        <div class="settings_content">
-          IP Address<br>
-          <input type="number" class="IP_input" id="IP_pivot_0">&nbsp.
-          <input type="number" class="IP_input" id="IP_pivot_1">&nbsp.
-          <input type="number" class="IP_input" id="IP_pivot_2">&nbsp.
-          <input type="number" class="IP_input" id="IP_pivot_3">&nbsp
-          <button type="button" class="settings_button" id="pivot_IP_button">Save</button>
-          <br><br><br>
-          Move Arm<br>
-          <button type="button" class="settings_button" id="pivot_left_button">Left</button>
-          <button type="button" class="settings_button" id="pivot_toggle_button">Toggle</button>
-          <button type="button" class="settings_button" id="pivot_right_button">Right</button>
-          <br><br><br>
-          Pivot Bypass
-          <input type="checkbox" id="pivot_overide_check">
-        </div>
-      </div>
-
-      <!-- Server Settins Page -->
-      <div class="main_pane settings_pane" id="server_pane">
-        <div class="settings_title">Server Settings</div>
-        <div class="settings_close_button" id="server_close_button">Close</div>
-        <div class="settings_content">
-          IP Address<br>
-          <input type="number" class="IP_input" id="IP_server_0">&nbsp.
-          <input type="number" class="IP_input" id="IP_server_1">&nbsp.
-          <input type="number" class="IP_input" id="IP_server_2">&nbsp.
-          <input type="number" class="IP_input" id="IP_server_3">&nbsp
-          <button type="button" class="settings_button" id="server_IP_button">Save</button>
-          <br><br><br>
-          Server Bypass
-          <input type="checkbox" id="server_overide_check">
-        </div>
-      </div>
-
-
     </body>
 
     <script>

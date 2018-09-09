@@ -17,8 +17,8 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
     // Create the control window.
     controlWin = new BrowserWindow({
-      width: 800,
-      height: 600,
+      width: 1200,
+      height: 950,
       x: 450,
       y: 0,
       // center: false,
@@ -96,6 +96,6 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
   // code. You can also put them in separate files and require them here.
   function runMain(){
   	console.log("start");
-  	// var SlowMotionBooth = require('./app/js/slow-motion-booth.js');
-  	// SlowMotionBooth.init(win);
+  	var LeaderBoad = require('./app/js/leader-board.js');
+  	LeaderBoad.init(displayWin, controlWin);
   }
