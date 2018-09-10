@@ -36,7 +36,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
       y: 0,
       useContentSize: true,
       frame: false,
-      // alwaysOnTop: true,
+      alwaysOnTop: true,
       resizable: false,
       show:false})
 
