@@ -5,7 +5,8 @@ const {ipcRenderer} = require('electron');
 
 var teams = 0;
 var rounds = 0;
-var widthSansScores = 530;
+var judges = 0;
+var widthSansScores = 430;
 var scoreWidth = 75;
 var scoreBoxWidth = widthSansScores + rounds * scoreWidth;
 
@@ -21,7 +22,7 @@ function drawGrid(){
         '<div class="teamID" id="teamID_'+i+'">'+i+'</div>'+
         '<div class="teamName" >'+
           '<input type="text" class="name_input"  id="teamName_'+i+'" '+
-          'onblur="this.style.backgroundColor=`red`"></div>'+
+          'onblur="this.style.backgroundColor=`red`" maxlength="16"></div>'+
         '<div class="teamPlace" id="teamPlace_'+i+'"></div>'+
         '<div class="teamScore" id="teamScore_'+i+'"></div>'+
         '<div class="roundScores" id="roundScores_'+i+'">';
@@ -82,13 +83,21 @@ function saveScores(display){
 ipcRenderer.on('setTeams', function(event, value){
   //used to set the number of teams in the game
   teams = value;
+  document.getElementById('teamsInput').value = teams;
   drawGrid();
 })
 
 ipcRenderer.on('setRounds', function(event, value){
   //used to set the number of rounds in the game
   rounds = value;
+  document.getElementById('roundsInput').value = rounds;
   drawGrid();
+})
+
+ipcRenderer.on('setJudges', function(event, value){
+  //used to set the number of rounds in the game
+  judges = value;
+  document.getElementById('judgesInput').value = judges;
 })
 
 ipcRenderer.on('displayAllData', function(event, teamData){
@@ -104,18 +113,70 @@ ipcRenderer.on('displayAllData', function(event, teamData){
       document.getElementById('RS_'+i+'_'+j).value=teamData[i].points[j];
       document.getElementById('RS_'+i+'_'+j).style.backgroundColor="white";
     }
-
   }
-
-  // var inputBoxes = document.getElementsByClassName('dataInput');
-  // for(var i=0; i<scoresBoxes.length; i++){
-  //   inputBoxes[i].style.backgroundColor="blue";
-  // }
 })
 
+ipcRenderer.on('scoreEntered', function(event, team, round, score){
+  document.getElementById('RS_'+team+'_'+round).value=score;
+  document.getElementById('RS_'+team+'_'+round).style.backgroundColor="blue";
+})
 
+ipcRenderer.on('saveAndDisplay', function(event){
+  saveScores(true);
+})
 
 //mouse clicks
+document.getElementById("settingsButton").onclick = function(){
+  document.getElementById("settingsPane").style.display='block';
+  // ipcRenderer.send('settingsOpen');
+};
+
+document.getElementById("returnButton").onclick = function(){
+  document.getElementById("settingsPane").style.display='none';
+};
+
+document.getElementById("teamsSave").onclick = function(){
+  var input = parseInt(document.getElementById('teamsInput').value);
+  if (input > 0){
+    ipcRenderer.send('saveTeams', input);
+  }
+  else{
+    ipcRenderer.send('saveTeams', 1);
+  }
+};
+
+document.getElementById("roundsSave").onclick = function(){
+  var input = parseInt(document.getElementById('roundsInput').value);
+  if (input > 0){
+    ipcRenderer.send('saveRounds', input);
+  }
+  else{
+    ipcRenderer.send('saveRounds', 1);
+  }
+};
+
+document.getElementById("judgesSave").onclick = function(){
+  var input = parseInt(document.getElementById('judgesInput').value);
+  if (input > 0){
+    ipcRenderer.send('saveJudges', input);
+  }
+  else{
+    ipcRenderer.send('saveJudges', 1);
+  }
+};
+
+document.getElementById('resetTeamsButton').onclick = function(){
+  ipcRenderer.send('resetTeams');
+};
+
+document.getElementById('resetScoresButton').onclick = function(){
+  ipcRenderer.send('resetScores');
+};
+
+document.getElementById('resetAllButton').onclick = function(){
+  ipcRenderer.send('resetAll');
+};
+
 document.getElementById("saveButton").onclick = function(){saveScores(false)};
 
 document.getElementById("displayButton").onclick = function(){saveScores(true)};

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="judges.css">
+  	<title>Trivia Judge Station</title>
+  </head>
+  <body>
+    <h1>Judge Station</h1>
+    <hr>
+    <div id="judeSelectPane">
+      <h2>Judge ID
+        <select id="judgeSelect"></select>
+      <button type ="button" id='judgeButton'>Continue</button>
+    </h2>
+    <hr>
+
+    </div>
+    <div id="scorePane">
+      <div id="titleBox">
+        <div class="teamID" id="teamID_header">ID</div>
+        <div class="teamName" id="teamName_header">Team Name</div>
+        <div class="roundScores" id="roundScores_header">
+          <div class="roundScore">Rounds</div>
+        </div>
+      </div>
+      <div id="scoreBox">
+        <!-- score lines -->
+      </div>
+    </div>
+
+
+
+
+  </body>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/jquery.js"></script>
+  <script src="/judges.js"></script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <script>
+  var socket = io();
+
+  document.getElementById("temp").onclick = function(){
+  socket.emit('click')
+  };
+</script> -->

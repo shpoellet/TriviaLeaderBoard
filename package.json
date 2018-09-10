@@ -11,7 +11,11 @@
     "type": "git",
     "url": "https://github.com/shpoellet/TriviaLeaderBoard.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.3",
+    "osc-js": "^1.2.2",
+    "socket.io": "^2.1.1"
+  },
   "devDependencies": {
     "electron": "^2.0.6"
   }

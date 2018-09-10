@@ -17,12 +17,14 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
     // Create the control window.
     controlWin = new BrowserWindow({
-      width: 1200,
-      height: 950,
+      width: 1100,
+      minWidth: 600,
+      height: 850,
+      minHeight: 500,
       x: 450,
       y: 0,
       // center: false,
-      // useContentSize: true,
+      useContentSize: true,
       // resizable: false,
       // fullscreen: true,
       show:false});
@@ -66,7 +68,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
   	  startMain();
     })
 
-    // Menu.setApplicationMenu(null);
+    Menu.setApplicationMenu(null);
   }
 
 
