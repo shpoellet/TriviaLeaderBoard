@@ -31,12 +31,12 @@ exports.saveToFile = function(teams, rounds, judges, teamData){
 
   fs.open(path, 'w', function(err, fd) {
       if (err) {
-          Console.log('Could not open save file');
+          console.log('Could not open save file');
       }
 
       fs.write(fd, buf, 0, buf.length, null, function(err) {
         if (err) {
-          Console.log('Error writing to file');
+          console.log('Error writing to file');
         }
         fs.close(fd, function() {
             console.log('wrote the file successfully');
