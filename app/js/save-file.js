@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 
-var path = 'save.tlb';
+var path = './save.tlb';
 
 
 exports.saveToFile = function(teams, rounds, judges, teamData){
@@ -30,10 +30,10 @@ exports.saveToFile = function(teams, rounds, judges, teamData){
 
 
   fs.open(path, 'w', function(err, fd) {
-      if (err) {
-          console.log('Could not open save file');
-      }
-
+    if (err) {
+        console.log('Could not open save file');
+    }
+    else{
       fs.write(fd, buf, 0, buf.length, null, function(err) {
         if (err) {
           console.log('Error writing to file');
@@ -42,6 +42,7 @@ exports.saveToFile = function(teams, rounds, judges, teamData){
             console.log('wrote the file successfully');
         });
       });
+    }
   });
 }
 
