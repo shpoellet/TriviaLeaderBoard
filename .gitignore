@@ -60,5 +60,8 @@ typings/
 # next.js build output
 .next
 
+#save file
+*.tlb
+
 # build directory
 release-builds/
