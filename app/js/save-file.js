@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 
-var path = './save.tlb';
+var path = __dirname + '/save.tlb';
 
 
 exports.saveToFile = function(teams, rounds, judges, teamData){
