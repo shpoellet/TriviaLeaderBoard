@@ -1,6 +1,6 @@
 const {ipcRenderer} = require('electron');
 
-var lineHeight = 40;
+var lineHeight = 37;
 
 // var scores = [];
 //

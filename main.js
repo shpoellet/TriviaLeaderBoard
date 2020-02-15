@@ -68,7 +68,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
   	  startMain();
     })
 
-    Menu.setApplicationMenu(null);
+    //Menu.setApplicationMenu(null);
   }
 
 

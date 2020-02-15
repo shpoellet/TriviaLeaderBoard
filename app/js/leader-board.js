@@ -25,7 +25,7 @@ function createTeamArray(){
   for (var i = 0; i < teams; i++) {
     teamData[i] = {};
     teamData[i].id = i;
-    teamData[i].name = "Team " + i;
+    teamData[i].name = "Team " + (i + 1);
     teamData[i].place = 0;
     teamData[i].score = 0;
     teamData[i].points = [];
@@ -35,11 +35,12 @@ function createTeamArray(){
   }
 }
 
-function calculateScores(){
+function calculateScores(includes){
   for(var i = 0; i < teams; i++){
     teamData[i].score = 0;
     for(var j=0; j<rounds; j++){
-      teamData[i].score = teamData[i].score + teamData[i].points[j];
+      if(includes[j])
+        {teamData[i].score = teamData[i].score + teamData[i].points[j];}
     }
   }
 }
@@ -91,7 +92,7 @@ function gridSlice(start, length){
 }
 
 function judgeScore(team, round, score){
-  teamData[team].points[round] = score;
+  //teamData[team].points[round] = score;
   controlWindow.webContents.send('scoreEntered', team, round, score);
   judgeServer.newScore(team, round, score);
 }
@@ -99,7 +100,7 @@ function judgeScore(team, round, score){
 
 
 //events from gui
-ipcMain.on('saveData', function(event, item, display){
+ipcMain.on('saveData', function(event, item, display, includes){
   //saves data that has been entered on the local gui
   //store new data in array
   for(var i = 0; i< teams; i++){
@@ -108,9 +109,25 @@ ipcMain.on('saveData', function(event, item, display){
   }
 
   //calculate new scores
-  calculateScores();
+  calculateScores(includes);
   calculatePlace();
-  controlWindow.webContents.send('displayAllData', teamData);
+  controlWindow.webContents.send('displayAllData', teamData, includes);
+  if(display){
+    displayWindow.webContents.send('displayScores', placeArray);
+  }
+  judgeServer.newData();
+  saveFile.saveToFile(teams, rounds, judges, teamData);
+});
+
+ipcMain.on('saveNames', function(event, item, display){
+  //saves data that has been entered on the local gui
+  //store new data in array
+  for(var i = 0; i< teams; i++){
+    teamData[i].name = item[i].name;
+  }
+
+  calculatePlace();
+  controlWindow.webContents.send('displayNames', teamData);
   if(display){
     displayWindow.webContents.send('displayScores', placeArray);
   }
@@ -127,7 +144,7 @@ ipcMain.on('saveTeams', function(event, value){
   teams = value;
   controlWindow.webContents.send('setTeams', teams);
   createTeamArray();
-  controlWindow.webContents.send('displayAllData', teamData);
+  controlWindow.webContents.send('displayFirstData', teamData);
   judgeServer.setTeams(teams);
 });
 
@@ -148,7 +165,7 @@ ipcMain.on('resetTeams', function(event){
   for(var i=0; i<teams; i++){
     teamData[i].name = 'Team ' + i;
   }
-  controlWindow.webContents.send('displayAllData', teamData);
+  controlWindow.webContents.send('displayFirstData', teamData);
   judgeServer.newData();
 });
 
@@ -158,13 +175,13 @@ ipcMain.on('resetScores', function(event){
       teamData[i].points[j] = 0;
     }
   }
-  controlWindow.webContents.send('displayAllData', teamData);
+  controlWindow.webContents.send('displayFirstData', teamData);
   judgeServer.newData();
 });
 
 ipcMain.on('resetAll', function(event){
   createTeamArray();
-  controlWindow.webContents.send('displayAllData', teamData);
+  controlWindow.webContents.send('displayFirstData', teamData);
   judgeServer.newData();
 });
 
@@ -210,7 +227,7 @@ exports.init = function(dWin, cWin){
     controlWindow.webContents.send('setJudges', judges);
 
     judgeServer.newData();
-    controlWindow.webContents.send('displayAllData', teamData);
+    controlWindow.webContents.send('displayFirstData', teamData);
 
 
   });

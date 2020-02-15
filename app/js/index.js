@@ -19,7 +19,7 @@ function drawGrid(){
   for (var i = 0; i < teams; i++) {
     displayData = displayData +
       '<div class="scoreLine">'+
-        '<div class="teamID" id="teamID_'+i+'">'+i+'</div>'+
+        '<div class="teamID" id="teamID_'+i+'">'+(i+1)+'</div>'+
         '<div class="teamName" >'+
           '<input type="text" class="name_input"  id="teamName_'+i+'" '+
           'onblur="this.style.backgroundColor=`red`" maxlength="16"></div>'+
@@ -35,6 +35,13 @@ function drawGrid(){
     displayData = displayData + '</div></div>';
   }
 
+  var checkboxData = ""
+  for (var i = 0; i < rounds; i++){
+    checkboxData = checkboxData + '<div class="roundScore">'+
+      '<input type="checkbox" class="includeCheckbox" id="include_' + i +
+      '"></div>';
+  }
+
   var headerData = "";
   for (var j = 0; j < rounds; j++){
     headerData = headerData + '<div class="roundScore">R '+(j+1)+'</div>';
@@ -42,11 +49,13 @@ function drawGrid(){
 
   document.getElementById('scoreBox').innerHTML= displayData;
   document.getElementById('roundScores_header').innerHTML= headerData;
+  document.getElementById('includeScoreChecks').innerHTML= checkboxData;
 
   var scoreBoxWidth = widthSansScores + rounds * scoreWidth;
 
   document.getElementById('titleBox').style.minWidth = (scoreBoxWidth) +"px";
   document.getElementById('scoreBox').style.minWidth = (scoreBoxWidth) +"px";
+  document.getElementById('includeScoreBox').style.minWidth = (scoreBoxWidth) +"px";
 
   var scoresBoxes = document.getElementsByClassName('roundScores');
   for(var i=0; i<scoresBoxes.length; i++){
@@ -58,6 +67,7 @@ function drawGrid(){
 function saveScores(display){
 //cycle through all input and if data is valid save it
   var saveData = [];
+  var includeRound = [];
   var inputScore;
   for(var i = 0; i< teams; i++){
     saveData[i] = {};
@@ -71,10 +81,23 @@ function saveScores(display){
       else saveData[i].points[j] = 0;
     }
   }
-  ipcRenderer.send('saveData', saveData, display);
+  for(var j = 0; j < rounds; j++){
+    includeRound[j] = document.getElementById('include_'+j).checked;
+  }
+
+  ipcRenderer.send('saveData', saveData, display, includeRound);
 }
 
-
+function saveNames(display){
+//cycle through all input and if data is valid save it
+  var saveData = [];
+  var inputScore;
+  for(var i = 0; i< teams; i++){
+    saveData[i] = {};
+    saveData[i].name = document.getElementById('teamName_'+i).value;
+  }
+  ipcRenderer.send('saveNames', saveData, display);
+}
 
 
 
@@ -100,7 +123,7 @@ ipcRenderer.on('setJudges', function(event, value){
   document.getElementById('judgesInput').value = judges;
 })
 
-ipcRenderer.on('displayAllData', function(event, teamData){
+ipcRenderer.on('displayFirstData', function(event, teamData){
   //used to display all the data from the teamData array
   for(var i = 0; i< teams; i++){
     document.getElementById('teamName_'+i).value=teamData[i].name;
@@ -116,9 +139,35 @@ ipcRenderer.on('displayAllData', function(event, teamData){
   }
 })
 
+ipcRenderer.on('displayAllData', function(event, teamData, includes){
+  //used to display all the data from the teamData array
+  for(var i = 0; i< teams; i++){
+    document.getElementById('teamName_'+i).value=teamData[i].name;
+    document.getElementById('teamName_'+i).style.backgroundColor="white";
+    document.getElementById('teamPlace_'+i).innerHTML=teamData[i].place;
+    document.getElementById('teamScore_'+i).innerHTML=teamData[i].score;
+
+    //cycle through the score index
+    for(var j = 0; j < rounds; j++){
+      if(includes[j])
+        {document.getElementById('RS_'+i+'_'+j).value=teamData[i].points[j];
+        document.getElementById('RS_'+i+'_'+j).style.backgroundColor="white";}
+    }
+  }
+})
+
+ipcRenderer.on('displayNames', function(event, teamData){
+  //used to display all the data from the teamData array
+  for(var i = 0; i< teams; i++){
+    document.getElementById('teamName_'+i).value=teamData[i].name;
+    document.getElementById('teamName_'+i).style.backgroundColor="white";
+
+  }
+})
+
 ipcRenderer.on('scoreEntered', function(event, team, round, score){
   document.getElementById('RS_'+team+'_'+round).value=score;
-  document.getElementById('RS_'+team+'_'+round).style.backgroundColor="blue";
+  document.getElementById('RS_'+team+'_'+round).style.backgroundColor="Blue";
 })
 
 ipcRenderer.on('saveAndDisplay', function(event){
@@ -180,6 +229,8 @@ document.getElementById('resetAllButton').onclick = function(){
 document.getElementById("saveButton").onclick = function(){saveScores(false)};
 
 document.getElementById("displayButton").onclick = function(){saveScores(true)};
+
+document.getElementById("namesButton").onclick = function(){saveNames(true)};
 
 
 

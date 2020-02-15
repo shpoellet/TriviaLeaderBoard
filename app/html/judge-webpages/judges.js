@@ -93,7 +93,7 @@ socket.on('gameParams', function(numJudges, inTeams, inRounds){
 
 socket.on('grid', function(grid){
   for (var i=0; i<grid.length; i++){
-    document.getElementById('teamID_'+i).innerHTML=grid[i].id;
+    document.getElementById('teamID_'+i).innerHTML=grid[i].id+1;
     document.getElementById('teamName_'+i).innerHTML=grid[i].name;
     for (var j=0; j<rounds; j++){
       document.getElementById('RS_'+i+'_'+j).value=grid[i].points[j];
